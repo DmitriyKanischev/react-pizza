@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
+const PizzaBlock = ({title, price, imageUrl, sizes, types, id}) => {
   // const [pizzaCount, setPizzaCount] = React.useState(0)
   // const onClickChangeCount = () => {
   //   setPizzaCount(pizzaCount +1)
@@ -20,12 +20,12 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
               <div className="pizza-block__selector">
                 <ul>
                   {types.map((typeId, i) =>
-                    <li onClick={() => setActiveType(i)} className={activeType === i ? "active" : ""} >{typeNames[typeId]}</li>
+                    <li key={i} onClick={() => setActiveType(i)} className={activeType === i ? "active" : ""} >{typeNames[typeId]}</li>
                   )}
                 </ul>
                 <ul>
                   {sizes.map((item, i) => 
-                    <li onClick={() => setActiveSize(i)} className={activeSize === i ? "active" : ""}>{item} см.</li>
+                    <li key={item} onClick={() => setActiveSize(i)} className={activeSize === i ? "active" : ""}>{item} см.</li>
                   )}
                 </ul>
               </div>

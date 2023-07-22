@@ -20,11 +20,8 @@ function App() {
           <div className="content__items">
           {pizzas.map(pizza => 
             <PizzaBlock
-              title={pizza.title}
-              price={pizza.price}
-              imageUrl={pizza.imageUrl}
-              sizes={pizza.sizes}
-              types={pizza.types}
+              key={pizza.id}
+              {...pizza}
             />
           )}
 
