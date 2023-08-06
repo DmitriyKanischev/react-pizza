@@ -14,6 +14,14 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+
+  @media (max-width: 640px) {
+    width: calc(100vw - 30px);
+    margin: 30px auto;
+  }
+  @media (max-width: 445px) {
+    margin: 20px auto;
+  }
 }
 
 .content {
@@ -21,6 +29,10 @@ body {
 
   &__title {
     margin: 35px 0;
+    font-size: 38px;
+    font-weight: 800px;
+    margin-top: 50px;
+    margin-bottom: 60px;
   }
 
   &__items {
@@ -53,10 +65,20 @@ body {
       .categories {
         margin-bottom: 30px;
         width: 100%;
-        overflow: scroll;
+        overflow: auto;
 
         ul {
           width: 785px;
+        }
+      }
+    }
+
+    @media (max-width: 760px) {
+      .categories {
+        ul {
+          li {
+            padding: 8px 20px;
+          }
         }
       }
     }
@@ -130,6 +152,11 @@ body {
         color: darken($color: #b6b6b6, $amount: 50);
       }
     }
+  }
+
+  .content__items {
+    display: flex;
+    flex-direction: column;
   }
 
   &__item {
