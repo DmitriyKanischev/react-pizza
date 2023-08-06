@@ -10,22 +10,25 @@ import '../scss/app.scss'
 const Home = () => {
     const [items, setItems] = React.useState([])
     const [loading, setLoading] = React.useState(true)
+    const [activeCategory, setActiveCategory] = React.useState(0)
+
   
     React.useEffect(() =>{
-      fetch('https://64c0907c0d8e251fd11231b2.mockapi.io/items')
+        setLoading(true)
+      fetch('https://64c0907c0d8e251fd11231b2.mockapi.io/items?category=' + activeCategory)
         .then((res) => res.json())
         .then((arr)=> {
           setItems(arr)
           setLoading(false)
         })
         window.scrollTo(0, 0)
-    }, [])
+    }, [activeCategory])
     
     return ( 
         <>
             <div className="container">
                 <div className="content__top">
-                    <Categories/>
+                    <Categories value={activeCategory} onClickCategory={(id) => setActiveCategory(id)}/>
                     <Sort/>
                 </div>
                 <h2 className="content__title">Все пиццы</h2>
