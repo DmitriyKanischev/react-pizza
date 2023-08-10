@@ -12,6 +12,7 @@ const Home = ({searchInput}) => {
     const [items, setItems] = React.useState([])
     const [loading, setLoading] = React.useState(true)
     const [activeCategory, setActiveCategory] = React.useState(0)
+    const [currentPage, setCurrentPage] = React.useState(0)
     const [sortType, setSortType] = React.useState({
         name: 'популярности',
         sortProp: 'rating'
@@ -21,14 +22,14 @@ const Home = ({searchInput}) => {
         setLoading(true)
         const category = activeCategory > 0 ? `category=${activeCategory}` : '';
         const search = searchInput ? `&search=${searchInput}` : ''
-      fetch(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
+      fetch(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
         .then((res) => res.json())
         .then((arr)=> {
           setItems(arr)
           setLoading(false)
         })
         window.scrollTo(0, 0)
-    }, [activeCategory, sortType, searchInput])
+    }, [activeCategory, sortType, searchInput, currentPage])
 
     const pizzas = items
     .map(pizza => 
@@ -49,7 +50,7 @@ const Home = ({searchInput}) => {
                 {loading ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>) : pizzas
                 }
                 </div>
-                <Pagination />
+                <Pagination onChangePage={number => setCurrentPage(number)} />
             </div>
         </>
      );
