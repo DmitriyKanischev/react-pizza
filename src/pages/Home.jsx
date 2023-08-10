@@ -5,6 +5,7 @@ import Sort from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import '../scss/app.scss'
+import Pagination from '../components/Pagination';
 
 
 const Home = ({searchInput}) => {
@@ -48,6 +49,7 @@ const Home = ({searchInput}) => {
                 {loading ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>) : pizzas
                 }
                 </div>
+                <Pagination />
             </div>
         </>
      );
