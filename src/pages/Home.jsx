@@ -7,7 +7,7 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import '../scss/app.scss'
 
 
-const Home = () => {
+const Home = ({searchInput}) => {
     const [items, setItems] = React.useState([])
     const [loading, setLoading] = React.useState(true)
     const [activeCategory, setActiveCategory] = React.useState(0)
@@ -18,14 +18,23 @@ const Home = () => {
 
     React.useEffect(() =>{
         setLoading(true)
-      fetch(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?${activeCategory > 0 ? `category=${activeCategory}` : ''}&sortBy=${sortType.sortProp}&order=desc`)
+        const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+        const search = searchInput ? `&search=${searchInput}` : ''
+      fetch(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
         .then((res) => res.json())
         .then((arr)=> {
           setItems(arr)
           setLoading(false)
         })
         window.scrollTo(0, 0)
-    }, [activeCategory, sortType])
+    }, [activeCategory, sortType, searchInput])
+
+    const pizzas = items
+    .map(pizza => 
+        <PizzaBlock
+        key={pizza.id}
+        {...pizza}
+        />)
 
     return ( 
         <>
@@ -36,12 +45,8 @@ const Home = () => {
                 </div>
                 <h2 className="content__title">Все пиццы</h2>
                 <div className="content__items">
-                {loading ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>) : items.map(pizza => 
-                    <PizzaBlock
-                    key={pizza.id}
-                    {...pizza}
-                    />
-                )}
+                {loading ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>) : pizzas
+                }
                 </div>
             </div>
         </>
