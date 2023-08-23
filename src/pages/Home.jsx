@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort'
@@ -15,14 +16,9 @@ const Home = () => {
     const [loading, setLoading] = React.useState(true)
     const [currentPage, setCurrentPage] = React.useState(1)
     const {searchInput, setSearchInput} = React.useContext(SearchContext)
-    // const [sortType, setSortType] = React.useState({
-    //     name: 'популярности',
-    //     sortProp: 'rating'
-    // })
     const activeCategory = useSelector((state) => state.filter.categoryId)
     const sortType = useSelector((state) => state.filter.sort)
     const dispatch = useDispatch()
-    console.log(sortType)
 
     const setActiveCategory = (id) => {
         dispatch(setCategoryId(id))
@@ -31,13 +27,14 @@ const Home = () => {
     React.useEffect(() =>{
         setLoading(true)
         const category = activeCategory > 0 ? `category=${activeCategory}` : '';
-        const search = searchInput ? `&search=${searchInput}` : ''
-      fetch(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
-        .then((res) => res.json())
-        .then((arr)=> {
-          setItems(arr)
-          setLoading(false)
-        })
+        const search = searchInput ? `&search=${searchInput}` : '';
+
+        axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
+            .then((res) => {
+                setItems(res.data)
+                setLoading(false)
+            })
+
         window.scrollTo(0, 0)
     }, [activeCategory, sortType, searchInput, currentPage])
 

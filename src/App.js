@@ -10,7 +10,6 @@ export const SearchContext = React.createContext();
 
 function App() {
   const [searchInput, setSearchInput] = React.useState('');
-  console.log(searchInput)
 
   return (
     <>
