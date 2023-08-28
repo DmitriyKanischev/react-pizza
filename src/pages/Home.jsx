@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import qs from 'qs';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort'
@@ -14,12 +16,12 @@ import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 const Home = () => {
     const [items, setItems] = React.useState([])
     const [loading, setLoading] = React.useState(true)
-    // const [currentPage, setCurrentPage] = React.useState(1)
-    const {searchInput, setSearchInput} = React.useContext(SearchContext)
+    const {searchInput} = React.useContext(SearchContext)
     const activeCategory = useSelector((state) => state.filter.categoryId)
-    const sortType = useSelector((state) => state.filter.sort)
+    const sortType = useSelector((state) => state.filter.sort.sortProp)
     const currentPage = useSelector((state) => state.filter.currentPage)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const setActiveCategory = (id) => {
         dispatch(setCategoryId(id))
@@ -28,6 +30,13 @@ const Home = () => {
     const onChangePage = num => {
         dispatch(setCurrentPage(num))
     }
+
+    React.useEffect(()=>{
+        if(window.location.search) {
+            const params = qs.parse(window.location.search.substring(1))
+            console.log(params)
+        }
+    }, [])
 
     React.useEffect(() =>{
         setLoading(true)
@@ -42,6 +51,15 @@ const Home = () => {
 
         window.scrollTo(0, 0)
     }, [activeCategory, sortType, searchInput, currentPage])
+
+    React.useEffect(() => {
+        const queryString = qs.stringify({
+            sortType: sortType,
+            activeCategory,
+            currentPage
+        })
+        navigate(`?${queryString}`)
+    }, [activeCategory, sortType, currentPage])
 
     const pizzas = items
     .map(pizza => 
