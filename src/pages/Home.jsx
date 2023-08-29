@@ -8,17 +8,18 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton';
+import { list } from '../components/Sort';
 import '../scss/app.scss'
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage, setSortType, setWindowSearch } from '../redux/slices/filterSlice';
 
 const Home = () => {
     const [items, setItems] = React.useState([])
     const [loading, setLoading] = React.useState(true)
     const {searchInput} = React.useContext(SearchContext)
     const activeCategory = useSelector((state) => state.filter.categoryId)
-    const sortType = useSelector((state) => state.filter.sort.sortProp)
+    const sortType = useSelector((state) => state.filter.sort)
     const currentPage = useSelector((state) => state.filter.currentPage)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -34,7 +35,13 @@ const Home = () => {
     React.useEffect(()=>{
         if(window.location.search) {
             const params = qs.parse(window.location.search.substring(1))
-            console.log(params)
+            console.log(window.location.search.substring(1))
+            const newSort = list.find((obj) => obj.sortProp === params.sortType)
+            dispatch(setWindowSearch({
+                ...params,
+                newSort
+                
+            }))
         }
     }, [])
 
@@ -48,13 +55,12 @@ const Home = () => {
                 setItems(res.data)
                 setLoading(false)
             })
-
         window.scrollTo(0, 0)
     }, [activeCategory, sortType, searchInput, currentPage])
 
     React.useEffect(() => {
         const queryString = qs.stringify({
-            sortType: sortType,
+            sortType: sortType.sortProp,
             activeCategory,
             currentPage
         })
