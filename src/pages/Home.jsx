@@ -23,6 +23,8 @@ const Home = () => {
     const currentPage = useSelector((state) => state.filter.currentPage)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const searched = React.useRef(false)
+    const isMounted = React.useRef(false)
 
     const setActiveCategory = (id) => {
         dispatch(setCategoryId(id))
@@ -30,6 +32,18 @@ const Home = () => {
 
     const onChangePage = num => {
         dispatch(setCurrentPage(num))
+    }
+
+    const fetchPizzas = () => {
+        setLoading(true)
+        const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+        const search = searchInput ? `&search=${searchInput}` : '';
+
+        axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
+            .then((res) => {
+                setItems(res.data)
+                setLoading(false)
+            })
     }
 
     React.useEffect(()=>{
@@ -42,29 +56,26 @@ const Home = () => {
                 newSort
                 
             }))
+            searched.current = true
         }
     }, [])
 
     React.useEffect(() =>{
-        setLoading(true)
-        const category = activeCategory > 0 ? `category=${activeCategory}` : '';
-        const search = searchInput ? `&search=${searchInput}` : '';
-
-        axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
-            .then((res) => {
-                setItems(res.data)
-                setLoading(false)
-            })
+        if(!searched.current){
+            fetchPizzas()
+        }
+        searched.current = false
         window.scrollTo(0, 0)
     }, [activeCategory, sortType, searchInput, currentPage])
 
     React.useEffect(() => {
-        const queryString = qs.stringify({
+        if(isMounted.current){const queryString = qs.stringify({
             sortType: sortType.sortProp,
             activeCategory,
             currentPage
         })
-        navigate(`?${queryString}`)
+        navigate(`?${queryString}`)}
+        isMounted.current = true
     }, [activeCategory, sortType, currentPage])
 
     const pizzas = items
