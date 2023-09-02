@@ -12,14 +12,31 @@ const Sort = () => {
   const [open, setOpen] = React.useState(false)
   const sort = useSelector((state) => state.filter.sort)
   const dispatch = useDispatch()
+  const sortRef = React.useRef()
 
   const onSelectItem = (i) => {
     dispatch(setSortType(i))
     setOpen(false)
   }
 
+  React.useEffect(()=> {
+    console.log('Sort mount')
+    const handleClickSort = (e) => {
+      if(!e.composedPath().includes(sortRef.current)){
+        setOpen(false)
+      }
+    }
+    document.body.addEventListener('click', handleClickSort)
+
+    return () => {                                                    //return callback in useEffect working like componentWillUnmount
+      document.body.removeEventListener('click', handleClickSort)
+      console.log('Sort unmount')
+
+    }
+  },[])
+
     return ( 
-        <div className="sort">
+        <div ref={sortRef} className="sort">
         <div className="sort__label">
           <svg
             width="10"

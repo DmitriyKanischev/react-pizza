@@ -1,10 +1,6 @@
 import React from 'react';
 
-const PizzaBlock = ({title, price, imageUrl, sizes, types, id}) => {
-  // const [pizzaCount, setPizzaCount] = React.useState(0)
-  // const onClickChangeCount = () => {
-  //   setPizzaCount(pizzaCount +1)
-  // }
+const   PizzaBlock = ({title, price, imageUrl, sizes, types, id}) => {
     const typeNames = ["Тонкое", "Традиционное"]
     const [activeType, setActiveType] = React.useState(0)
     const [activeSize, setActiveSize] = React.useState(0)
