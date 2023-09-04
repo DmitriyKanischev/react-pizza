@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { calculatePrice, clearItems } from '../redux/slices/cartSlice';
+import CartEmpty from '../components/CartEmpty';
 
 const Cart = () => {
   const {items, totalPrice} = useSelector(state => state.cart)
@@ -21,7 +22,7 @@ const Cart = () => {
 
     return ( 
         <>
-          <div className="container container--cart">
+          {items.length > 0 ? <div className="container container--cart">
             <div className="cart">
               <div className="cart__top">
                 <h2 className="content__title"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,6 +68,9 @@ const Cart = () => {
             </div>
           </div>
         </div>
+        :
+        <CartEmpty />
+        }
         </>
      );
 }
