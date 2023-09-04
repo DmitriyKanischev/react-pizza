@@ -20,7 +20,6 @@ const Sort = () => {
   }
 
   React.useEffect(()=> {
-    console.log('Sort mount')
     const handleClickSort = (e) => {
       if(!e.composedPath().includes(sortRef.current)){
         setOpen(false)
@@ -30,8 +29,6 @@ const Sort = () => {
 
     return () => {                                                    //return callback in useEffect working like componentWillUnmount
       document.body.removeEventListener('click', handleClickSort)
-      console.log('Sort unmount')
-
     }
   },[])
 

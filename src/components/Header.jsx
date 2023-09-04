@@ -13,8 +13,6 @@ const Header = () => {
     return obj.count + sum
   }, 0) : 0;
 
-  console.log(itemsCount)
-
     return ( 
         <div className="header">
         <div className="container">

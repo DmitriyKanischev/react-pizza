@@ -34,22 +34,24 @@ const Home = () => {
         dispatch(setCurrentPage(num))
     }
 
-    const fetchPizzas = () => {
+    const fetchPizzas = async () => {
         setLoading(true)
         const category = activeCategory > 0 ? `category=${activeCategory}` : '';
         const search = searchInput ? `&search=${searchInput}` : '';
 
-        axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
-            .then((res) => {
-                setItems(res.data)
-                setLoading(false)
-            })
+        try {
+            const res = await axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
+            setItems(res.data)
+        } catch (err) {
+            console.log('Error:', err)
+        } finally {
+            setLoading(false)           //executed anyway
+        }
     }
 
     React.useEffect(()=>{
         if(window.location.search) {
             const params = qs.parse(window.location.search.substring(1))
-            console.log(window.location.search.substring(1))
             const newSort = list.find((obj) => obj.sortProp === params.sortType)
             dispatch(setWindowSearch({
                 ...params,
