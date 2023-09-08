@@ -12,10 +12,11 @@ import { list } from '../components/Sort';
 import '../scss/app.scss'
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
-import { setCategoryId, setCurrentPage, setSortType, setWindowSearch } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
+import { setItems } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
-    const [items, setItems] = React.useState([])
+    const items = useSelector((state) => state.pizza.items)
     const [loading, setLoading] = React.useState(true)
     const {searchInput} = React.useContext(SearchContext)
     const activeCategory = useSelector((state) => state.filter.categoryId)
@@ -40,8 +41,8 @@ const Home = () => {
         const search = searchInput ? `&search=${searchInput}` : '';
 
         try {
-            const res = await axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
-            setItems(res.data)
+            const {data} = await axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
+            dispatch(setItems(data))
         } catch (err) {
             console.log('Error:', err)
         } finally {
