@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import qs from 'qs';
 
 import Categories from '../components/Categories';
@@ -13,11 +12,12 @@ import '../scss/app.scss'
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 import { setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
-import { setItems } from '../redux/slices/pizzaSlice';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import NotFoundPage from './NotFoundPage';
+import ErrorPage from './ErrorPage';
 
 const Home = () => {
-    const items = useSelector((state) => state.pizza.items)
-    const [loading, setLoading] = React.useState(true)
+    const {items, status} = useSelector((state) => state.pizza)
     const {searchInput} = React.useContext(SearchContext)
     const activeCategory = useSelector((state) => state.filter.categoryId)
     const sortType = useSelector((state) => state.filter.sort)
@@ -35,21 +35,19 @@ const Home = () => {
         dispatch(setCurrentPage(num))
     }
 
-    const fetchPizzas = async () => {
-        setLoading(true)
+    const getPizzas = async () => {
         const category = activeCategory > 0 ? `category=${activeCategory}` : '';
         const search = searchInput ? `&search=${searchInput}` : '';
 
-        try {
-            const {data} = await axios.get(`https://64c0907c0d8e251fd11231b2.mockapi.io/items?&p=${currentPage}&l=4&${category}&sortBy=${sortType.sortProp}&order=desc${search}`)
-            dispatch(setItems(data))
-        } catch (err) {
-            console.log('Error:', err)
-        } finally {
-            setLoading(false)           //executed anyway
-        }
+        //  try/catch func in fetchPizzas in redux
+        dispatch(
+            fetchPizzas({
+                currentPage,
+                category,
+                sortType,
+                search
+        }))
     }
-
     React.useEffect(()=>{
         if(window.location.search) {
             const params = qs.parse(window.location.search.substring(1))
@@ -65,7 +63,7 @@ const Home = () => {
 
     React.useEffect(() =>{
         if(!searched.current){
-            fetchPizzas()
+            getPizzas()
         }
         searched.current = false
         window.scrollTo(0, 0)
@@ -96,10 +94,13 @@ const Home = () => {
                     <Sort />
                 </div>
                 <h2 className="content__title">Все пиццы</h2>
+                {status === 'error' ? <ErrorPage/> :
                 <div className="content__items">
-                {loading ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>) : pizzas
+                {status === 'loading'
+                    ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
+                    : pizzas
                 }
-                </div>
+                </div>}
                 <Pagination onChangePage={onChangePage} />
             </div>
         </>
