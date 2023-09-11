@@ -1,18 +1,21 @@
 import React from 'react';
+import {setSearchInput} from '../redux/slices/filterSlice'
 
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg'
 import Search from './Search';
-import { SearchContext } from '../App';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Header = () => {
-  const {searchInput, setSearchInput} = React.useContext(SearchContext)
+  const dispatch = useDispatch()
   const {items, totalPrice} = useSelector(state => state.cart)
+  const searchInput = useSelector((state) => state.filter)
   const itemsCount = items ? items.reduce((sum, obj) => {
     return obj.count + sum
   }, 0) : 0;
-
+  const changeSearchInput = () => {
+    dispatch(setSearchInput)
+  }
     return ( 
         <div className="header">
         <div className="container">
@@ -25,7 +28,7 @@ const Header = () => {
               </div>
             </div>
           </Link>
-          <Search searchInput={searchInput} setSearchInput={setSearchInput} />
+          <Search searchInput={searchInput} setSearchInput={changeSearchInput} />
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>

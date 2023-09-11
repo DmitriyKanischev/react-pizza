@@ -10,15 +10,13 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import { list } from '../components/Sort';
 import '../scss/app.scss'
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 import { setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
-import NotFoundPage from './NotFoundPage';
 import ErrorPage from './ErrorPage';
 
 const Home = () => {
     const {items, status} = useSelector((state) => state.pizza)
-    const {searchInput} = React.useContext(SearchContext)
+    const searchInput = useSelector((state) => state.filter.searchInput)
     const activeCategory = useSelector((state) => state.filter.categoryId)
     const sortType = useSelector((state) => state.filter.sort)
     const currentPage = useSelector((state) => state.filter.currentPage)

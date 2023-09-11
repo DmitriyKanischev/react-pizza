@@ -6,15 +6,11 @@ import NotFoundPage from './pages/NotFoundPage';
 import Cart from './pages/Cart';
 import {Routes, Route } from 'react-router-dom';
 
-export const SearchContext = React.createContext();
-
 function App() {
-  const [searchInput, setSearchInput] = React.useState('');
 
   return (
     <>
       <div className="wrapper">
-        <SearchContext.Provider value={{searchInput, setSearchInput}}>
           <Header />
           <div className="content">
             <Routes>
@@ -23,7 +19,6 @@ function App() {
               <Route path='*' element={<NotFoundPage/>}/>
             </Routes>
           </div>
-        </SearchContext.Provider>
       </div>
     </>
   );
