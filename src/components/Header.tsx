@@ -6,13 +6,16 @@ import logoSvg from '../assets/img/pizza-logo.svg'
 import Search from './Search';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Header = () => {
+
+const Header: React.FC = () => {
   const dispatch = useDispatch()
-  const {items, totalPrice} = useSelector(state => state.cart)
-  const searchInput = useSelector((state) => state.filter)
-  const itemsCount = items ? items.reduce((sum, obj) => {
+  const {items, totalPrice} = useSelector((state:any) => state.cart)    //    !!any type need change!!
+  const searchInput = useSelector((state:any)=> state.filter)         //      !!any type need change!!
+
+  const itemsCount = items ? items.reduce((sum: number, obj: any) => {
     return obj.count + sum
   }, 0) : 0;
+  
   const changeSearchInput = () => {
     dispatch(setSearchInput)
   }
@@ -28,7 +31,8 @@ const Header = () => {
               </div>
             </div>
           </Link>
-          <Search searchInput={searchInput} setSearchInput={changeSearchInput} />
+          {/*//@ts-ignore*/}
+          <Search searchInput={searchInput} setSearchInput={changeSearchInput}  /> 
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>
