@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Categories = ({value, onClickCategory}) => {
+type TCategories = {
+  value: number;
+  onClickCategory: any  //    !!any type need change!!
+}
+
+const Categories: React.FC<TCategories> = ({value, onClickCategory}) => {
   const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]
   
     return ( 
