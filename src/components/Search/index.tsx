@@ -1,29 +1,30 @@
 import React from 'react';
-import debounce from 'lodash.debounce';
+// @ts-ignore
+import debounce from 'lodash.debounce'; // in 2023 lib have only old types, not working in new React
 import { useDispatch } from 'react-redux';
 
 import styles from './Search.module.scss'
 import { setSearchInput } from '../../redux/slices/filterSlice';
 
-const Search = () => {
+const Search: React.FC = () => {
     const dispatch = useDispatch()
     const [localValue, setLocalValue] = React.useState('')
-    const inputRef = React.useRef()
+    const inputRef = React.useRef<HTMLInputElement>(null)
 
     const onClickClear = () => {
         setLocalValue('')
         dispatch(setSearchInput(''))
-        inputRef.current.focus()
+        inputRef.current?.focus()
     }
 
     const updateSearchInput = React.useCallback(
-        debounce((str) => {
+        debounce((str: string) => {
             dispatch(setSearchInput(str))
         }, 300),
         []
     )
 
-    const onChangeInput = (event) => {
+    const onChangeInput = (event: any) => {
         setLocalValue(event.target.value)
         updateSearchInput(event.target.value)
     }
