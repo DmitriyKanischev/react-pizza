@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { calculatePrice, clearItems } from '../redux/slices/cartSlice';
 import CartEmpty from '../components/CartEmpty';
 
-const Cart = () => {
-  const {items, totalPrice} = useSelector(state => state.cart)
-  const itemsCount = items ? items.reduce((sum, obj) => {
+const Cart: React.FC = () => {
+  const {items, totalPrice} = useSelector((state: any) => state.cart)
+  const itemsCount = items ? items.reduce((sum: number, obj: any) => {
     return obj.count + sum
   }, 0) : 0;
   const dispatch = useDispatch()
@@ -44,7 +44,7 @@ const Cart = () => {
               </div>
 
             <div className="content__items">
-            {items.map(item => 
+            {items.map((item: any) => 
               <CartItem key={item.id} {...item} />
             )}
             </div>

@@ -3,7 +3,7 @@ import React from 'react';
 import NotFound from '../components/NotFoundBlock';
 
 
-const NotFoundPage = () => {
+const NotFoundPage: React.FC = () => {
     return ( 
         <>
             <NotFound/>

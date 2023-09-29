@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorBlock from '../components/ErrorBlock';
 
 
-const ErrorPage = () => {
+const ErrorPage: React.FC = () => {
     return ( 
         <>
             <ErrorBlock/>
