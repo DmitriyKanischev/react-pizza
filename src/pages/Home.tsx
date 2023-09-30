@@ -14,22 +14,32 @@ import { setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 import ErrorPage from './ErrorPage';
 
-const Home = () => {
-    const {items, status} = useSelector((state) => state.pizza)
-    const searchInput = useSelector((state) => state.filter.searchInput)
-    const activeCategory = useSelector((state) => state.filter.categoryId)
-    const sortType = useSelector((state) => state.filter.sort)
-    const currentPage = useSelector((state) => state.filter.currentPage)
+type TPizzaItem = {
+    title: string; 
+    price: number;
+    imageUrl: string;
+    sizes: number[]; 
+    types: number[];
+    id:string
+  
+}
+
+const Home: React.FC = () => {
+    const {items, status} = useSelector((state: any) => state.pizza)
+    const searchInput = useSelector((state: any) => state.filter.searchInput)
+    const activeCategory = useSelector((state: any) => state.filter.categoryId)
+    const sortType = useSelector((state: any) => state.filter.sort)
+    const currentPage = useSelector((state: any) => state.filter.currentPage)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const searched = React.useRef(false)
     const isMounted = React.useRef(false)
 
-    const setActiveCategory = (id) => {
+    const setActiveCategory = (id: number) => {
         dispatch(setCategoryId(id))
     }
 
-    const onChangePage = num => {
+    const onChangePage = (num: number) => {
         dispatch(setCurrentPage(num))
     }
 
@@ -38,7 +48,8 @@ const Home = () => {
         const search = searchInput ? `&search=${searchInput}` : '';
 
         //  try/catch func in fetchPizzas in redux
-        dispatch(
+        dispatch(                                                   //ts-ignore before RTK typization
+            //@ts-ignore
             fetchPizzas({
                 currentPage,
                 category,
@@ -78,7 +89,7 @@ const Home = () => {
     }, [activeCategory, sortType, currentPage])
 
     const pizzas = items
-    .map(pizza => 
+    .map((pizza: TPizzaItem)=> 
         <PizzaBlock
         key={pizza.id}
         {...pizza}
