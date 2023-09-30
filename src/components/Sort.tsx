@@ -7,6 +7,7 @@ type TListItem = {
   sortProp: string;
 }
 
+
 export const list: TListItem[] = [
   {name: "популярности", sortProp: 'rating'},
   {name: "цене", sortProp: 'price'},
@@ -24,9 +25,10 @@ const Sort: React.FC = () => {
   }
 
   React.useEffect(()=> {
-    const handleClickSort = (e: any) => {                     //    !!any type need change!!
-      if(!e.composedPath().includes(sortRef.current)){
+    const handleClickSort = (e: MouseEvent) => {                
+      if(sortRef.current && !e.composedPath().includes(sortRef.current)){
         setOpen(false)
+        console.log(e.composedPath())
       }
     }
     document.body.addEventListener('click', handleClickSort)
