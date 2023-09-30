@@ -24,7 +24,7 @@ const Search: React.FC = () => {
         []
     )
 
-    const onChangeInput = (event: any) => {
+    const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalValue(event.target.value)
         updateSearchInput(event.target.value)
     }

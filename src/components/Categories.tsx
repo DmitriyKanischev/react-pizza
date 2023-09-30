@@ -2,7 +2,7 @@ import React from 'react';
 
 type TCategories = {
   value: number;
-  onClickCategory: any  //    !!any type need change!!
+  onClickCategory: (i: number) => void;
 }
 
 const Categories: React.FC<TCategories> = ({value, onClickCategory}) => {
