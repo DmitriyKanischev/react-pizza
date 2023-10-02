@@ -27,7 +27,7 @@ type TPizzaItem = {
 const Home: React.FC = () => {
     const {items, status} = useSelector((state: any) => state.pizza)
     const searchInput = useSelector((state: any) => state.filter.searchInput)
-    const activeCategory = useSelector((state: any) => state.filter.categoryId)
+    const categoryId = useSelector((state: any) => state.filter.categoryId)
     const sortType = useSelector((state: any) => state.filter.sort)
     const currentPage = useSelector((state: any) => state.filter.currentPage)
     const dispatch = useDispatch()
@@ -44,7 +44,7 @@ const Home: React.FC = () => {
     }
 
     const getPizzas = async () => {
-        const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+        const category = categoryId > 0 ? `category=${categoryId}` : '';
         const search = searchInput ? `&search=${searchInput}` : '';
 
         //  try/catch func in fetchPizzas in redux
@@ -60,10 +60,11 @@ const Home: React.FC = () => {
     React.useEffect(()=>{
         if(window.location.search) {
             const params = qs.parse(window.location.search.substring(1))
-            const newSort = list.find((obj) => obj.sortProp === params.sortType)
+            const sort = list.find((obj) => obj.sortProp === params.sortType)
             dispatch(setWindowSearch({
                 ...params,
-                newSort
+                //@ts-ignore
+                sort                                //ignore before useSelector will be typed
                 
             }))
             searched.current = true
@@ -76,17 +77,17 @@ const Home: React.FC = () => {
         }
         searched.current = false
         window.scrollTo(0, 0)
-    }, [activeCategory, sortType, searchInput, currentPage])
+    }, [categoryId, sortType, searchInput, currentPage])
 
     React.useEffect(() => {
         if(isMounted.current){const queryString = qs.stringify({
             sortType: sortType.sortProp,
-            activeCategory,
+            categoryId,
             currentPage
         })
         navigate(`?${queryString}`)}
         isMounted.current = true
-    }, [activeCategory, sortType, currentPage])
+    }, [categoryId, sortType, currentPage])
 
     const pizzas = items
     .map((pizza: TPizzaItem)=> 
@@ -99,7 +100,7 @@ const Home: React.FC = () => {
         <>
             <div className="container">
                 <div className="content__top">
-                    <Categories value={activeCategory} onClickCategory={(id) => setActiveCategory(id)}/>
+                    <Categories value={categoryId} onClickCategory={(id) => setActiveCategory(id)}/>
                     <Sort />
                 </div>
                 <h2 className="content__title">Все пиццы</h2>

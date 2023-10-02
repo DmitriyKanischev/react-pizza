@@ -1,6 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export type TSort = {
+    name: string;
+    sortProp: 'rating' | 'price' | 'title';
+}
+
+interface IFilterSliceState {
+    categoryId: number;
+    currentPage: number;
+    searchInput: string;
+    sort: TSort
+}
+
+const initialState: IFilterSliceState = {
     categoryId: 0,
     currentPage: 1,
     searchInput: '',
@@ -14,22 +26,22 @@ const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-        setCategoryId(state, action) {
+        setCategoryId(state, action: PayloadAction<number>) {
             state.categoryId = action.payload
         },
-        setSortType(state, action) {
+        setSortType(state, action: PayloadAction<TSort>) {
             state.sort = action.payload
         },
-        setCurrentPage(state, action) {
+        setCurrentPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload
         },
-        setSearchInput(state, action) {
+        setSearchInput(state, action: PayloadAction<string>) {
             state.searchInput = action.payload
         },
-        setWindowSearch(state, action) {
-            state.categoryId = Number(action.payload.activeCategory)
+        setWindowSearch(state, action: PayloadAction<IFilterSliceState>) {
+            state.categoryId = Number(action.payload.categoryId)
             state.currentPage = Number(action.payload.currentPage)
-            state.sort = action.payload.newSort
+            state.sort = action.payload.sort
         }
     }
 })

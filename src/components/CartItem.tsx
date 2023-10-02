@@ -24,7 +24,7 @@ const CartItem: React.FC<TCartItemProps> = ({title, price, imageUrl, count, size
         }
     }
     const onClickPlus = () => {
-        dispatch(addItem({id}))
+        dispatch(addItem({title, price, imageUrl, count, size, type, id}))
     }
     const onClickRemove = () => {
         if(window.confirm('Вы действительно хотите удалить товар?')) {

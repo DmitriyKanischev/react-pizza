@@ -1,14 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSortType } from '../redux/slices/filterSlice';
+import { TSort, setSortType } from '../redux/slices/filterSlice';
 
-type TListItem = {
-  name: string;
-  sortProp: string;
-}
-
-
-export const list: TListItem[] = [
+export const list: TSort[] = [
   {name: "популярности", sortProp: 'rating'},
   {name: "цене", sortProp: 'price'},
   {name: "алфавиту", sortProp: 'title'}]
@@ -19,7 +13,7 @@ const Sort: React.FC = () => {
   const dispatch = useDispatch()
   const sortRef = React.useRef<HTMLDivElement>(null)
 
-  const onSelectItem = (i:TListItem) => {
+  const onSelectItem = (i:TSort) => {
     dispatch(setSortType(i))
     setOpen(false)
   }
@@ -28,7 +22,6 @@ const Sort: React.FC = () => {
     const handleClickSort = (e: MouseEvent) => {                
       if(sortRef.current && !e.composedPath().includes(sortRef.current)){
         setOpen(false)
-        console.log(e.composedPath())
       }
     }
     document.body.addEventListener('click', handleClickSort)
