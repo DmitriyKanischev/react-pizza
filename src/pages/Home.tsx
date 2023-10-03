@@ -13,6 +13,7 @@ import Pagination from '../components/Pagination';
 import { setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 import ErrorPage from './ErrorPage';
+import { useAppDispatch } from '../redux/store';
 
 type TPizzaItem = {
     title: string; 
@@ -30,7 +31,7 @@ const Home: React.FC = () => {
     const categoryId = useSelector((state: any) => state.filter.categoryId)
     const sortType = useSelector((state: any) => state.filter.sort)
     const currentPage = useSelector((state: any) => state.filter.currentPage)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const searched = React.useRef(false)
     const isMounted = React.useRef(false)
@@ -48,8 +49,7 @@ const Home: React.FC = () => {
         const search = searchInput ? `&search=${searchInput}` : '';
 
         //  try/catch func in fetchPizzas in redux
-        dispatch(                                                   //ts-ignore before RTK typization
-            //@ts-ignore
+        dispatch(  
             fetchPizzas({
                 currentPage,
                 category,
