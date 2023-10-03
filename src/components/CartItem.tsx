@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch} from 'react-redux';
-import { addItem, removeItem, minusItem } from '../redux/slices/cartSlice';
+import { addItem, removeItem, minusItem, TCartItem } from '../redux/slices/cartSlice';
 
 type TCartItemProps = {
     title: string; 
@@ -24,7 +24,7 @@ const CartItem: React.FC<TCartItemProps> = ({title, price, imageUrl, count, size
         }
     }
     const onClickPlus = () => {
-        dispatch(addItem({title, price, imageUrl, count, size, type, id}))
+        dispatch(addItem({id} as TCartItem))    //func expects whole object, but we need only id for count
     }
     const onClickRemove = () => {
         if(window.confirm('Вы действительно хотите удалить товар?')) {
