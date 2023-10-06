@@ -11,7 +11,7 @@ export type TCartItem = {
     type: string;
     id: string
 }
-interface ICartSliceState {
+export interface ICartSliceState {
     totalPrice: number;
     items: TCartItem[]
 }

@@ -1,17 +1,26 @@
 import React from 'react';
-import {setSearchInput} from '../redux/slices/filterSlice'
+import {IFilterSliceState, setSearchInput} from '../redux/slices/filterSlice'
 
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg'
 import Search from './Search';
 import { useDispatch, useSelector } from 'react-redux';
+import { ICartSliceState } from '../redux/slices/cartSlice';
 
+interface ICartState {
+  cart: ICartSliceState
+}
+interface IFilterState {
+  filter: IFilterSliceState
+}
 
 const Header: React.FC = () => {
   const dispatch = useDispatch()
-  const {items, totalPrice} = useSelector((state:any) => state.cart)    //    !!any type need change!!
-  const searchInput = useSelector((state:any)=> state.filter)         //      !!any type need change!!
+  const {items, totalPrice} = useSelector((state: ICartState) => state.cart)
+  const {searchInput} = useSelector((state: IFilterState)=> state.filter)  
   const isMounted = React.useRef(false)
+
+  console.log('search from filter', searchInput)
 
   React.useEffect(() => {
     if(isMounted.current) {
