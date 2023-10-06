@@ -11,6 +11,15 @@ const Header: React.FC = () => {
   const dispatch = useDispatch()
   const {items, totalPrice} = useSelector((state:any) => state.cart)    //    !!any type need change!!
   const searchInput = useSelector((state:any)=> state.filter)         //      !!any type need change!!
+  const isMounted = React.useRef(false)
+
+  React.useEffect(() => {
+    if(isMounted.current) {
+      const json = JSON.stringify(items)
+      localStorage.setItem('cart', json)
+    }
+    isMounted.current = true
+  }, [items])
 
   const itemsCount = items ? items.reduce((sum: number, obj: any) => {
     return obj.count + sum
