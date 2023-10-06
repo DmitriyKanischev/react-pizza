@@ -15,6 +15,9 @@ export interface ICartSliceState {
     totalPrice: number;
     items: TCartItem[]
 }
+export interface ICartState {
+    cart: ICartSliceState
+  }
 
 const initialState: ICartSliceState = {
     totalPrice: priceCalculate(getDataFromLocalStorage()),

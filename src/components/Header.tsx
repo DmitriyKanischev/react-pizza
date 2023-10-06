@@ -1,18 +1,11 @@
 import React from 'react';
-import {IFilterSliceState, setSearchInput} from '../redux/slices/filterSlice'
+import {IFilterState, setSearchInput} from '../redux/slices/filterSlice'
 
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg'
 import Search from './Search';
 import { useDispatch, useSelector } from 'react-redux';
-import { ICartSliceState } from '../redux/slices/cartSlice';
-
-interface ICartState {
-  cart: ICartSliceState
-}
-interface IFilterState {
-  filter: IFilterSliceState
-}
+import { ICartState } from '../redux/slices/cartSlice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch()

@@ -12,6 +12,10 @@ export interface IFilterSliceState {
     sort: TSort
 }
 
+export interface IFilterState {
+    filter: IFilterSliceState
+  }
+
 const initialState: IFilterSliceState = {
     categoryId: 0,
     currentPage: 1,
