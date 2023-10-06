@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
 
@@ -10,7 +10,7 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import { list } from '../components/Sort';
 import '../scss/app.scss'
 import Pagination from '../components/Pagination';
-import { setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
+import { IFilterSliceState, setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 import ErrorPage from './ErrorPage';
 import { useAppDispatch } from '../redux/store';
@@ -36,9 +36,11 @@ const Home: React.FC = () => {
     const searched = React.useRef(false)
     const isMounted = React.useRef(false)
 
-    const setActiveCategory = (id: number) => {
+    console.log('home render')
+
+    const setActiveCategory = React.useCallback((id: number) => {
         dispatch(setCategoryId(id))
-    }
+    }, [])
 
     const onChangePage = (num: number) => {
         dispatch(setCurrentPage(num))
@@ -63,10 +65,9 @@ const Home: React.FC = () => {
             const sort = list.find((obj) => obj.sortProp === params.sortType)
             dispatch(setWindowSearch({
                 ...params,
-                //@ts-ignore
-                sort                                //ignore before useSelector will be typed
+                sort                                
                 
-            }))
+            } as IFilterSliceState))
             searched.current = true
         }
     }, [])
@@ -101,7 +102,7 @@ const Home: React.FC = () => {
             <div className="container">
                 <div className="content__top">
                     <Categories value={categoryId} onClickCategory={(id) => setActiveCategory(id)}/>
-                    <Sort />
+                    <Sort value={sortType}/>
                 </div>
                 <h2 className="content__title">Все пиццы</h2>
                 {status === 'error' ? <ErrorPage/> :

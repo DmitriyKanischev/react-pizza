@@ -5,7 +5,7 @@ export type TSort = {
     sortProp: 'rating' | 'price' | 'title';
 }
 
-interface IFilterSliceState {
+export interface IFilterSliceState {
     categoryId: number;
     currentPage: number;
     searchInput: string;

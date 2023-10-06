@@ -5,9 +5,9 @@ type TCategories = {
   onClickCategory: (i: number) => void;
 }
 
-const Categories: React.FC<TCategories> = ({value, onClickCategory}) => {
+const Categories: React.FC<TCategories> = React.memo(({value, onClickCategory}) => {
   const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]
-  
+  console.log('Categories render')
     return ( 
         <div className="categories">
         <ul>
@@ -18,6 +18,6 @@ const Categories: React.FC<TCategories> = ({value, onClickCategory}) => {
       </div>
 
      );
-}
+})
  
 export default Categories;
