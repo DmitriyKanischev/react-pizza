@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { TSort } from "./filterSlice";
 
 type TFetchParams = {
-    currentPage: string;
+    currentPage: number;
     category: string;
     sortType: TSort,
     search: string
@@ -50,6 +50,10 @@ export const fetchPizzas = createAsyncThunk<TPizza[], TFetchParams>(
 const initialState: IPizzaSliceState = {
     items: [],
     status: EStatus.LOADING
+}
+
+export interface IPizzaState {
+    pizza: IPizzaSliceState
 }
 
 const pizzaSlice = createSlice({

@@ -10,8 +10,8 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import { list } from '../components/Sort';
 import '../scss/app.scss'
 import Pagination from '../components/Pagination';
-import { IFilterSliceState, setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { IFilterSliceState, IFilterState, setCategoryId, setCurrentPage, setWindowSearch } from '../redux/slices/filterSlice';
+import { IPizzaState, fetchPizzas } from '../redux/slices/pizzaSlice';
 import ErrorPage from './ErrorPage';
 import { useAppDispatch } from '../redux/store';
 
@@ -26,11 +26,11 @@ type TPizzaItem = {
 }
 
 const Home: React.FC = () => {
-    const {items, status} = useSelector((state: any) => state.pizza)
-    const searchInput = useSelector((state: any) => state.filter.searchInput)
-    const categoryId = useSelector((state: any) => state.filter.categoryId)
-    const sortType = useSelector((state: any) => state.filter.sort)
-    const currentPage = useSelector((state: any) => state.filter.currentPage)
+    const {items, status} = useSelector((state: IPizzaState) => state.pizza)
+    const searchInput = useSelector((state: IFilterState) => state.filter.searchInput)
+    const categoryId = useSelector((state: IFilterState) => state.filter.categoryId)
+    const sortType = useSelector((state: IFilterState) => state.filter.sort)
+    const currentPage = useSelector((state: IFilterState) => state.filter.currentPage)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const searched = React.useRef(false)
