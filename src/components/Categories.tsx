@@ -7,8 +7,8 @@ type TCategories = {
 
 const Categories: React.FC<TCategories> = React.memo(({value, onClickCategory}) => {
   const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]
-  console.log('Categories render')
-    return ( 
+
+  return ( 
         <div className="categories">
         <ul>
         {categories.map((category, i) => 

@@ -15,8 +15,7 @@ const Sort: React.FC<TSortProps> = React.memo(({value}) => {
   const [open, setOpen] = React.useState(false)
   const dispatch = useDispatch()
   const sortRef = React.useRef<HTMLDivElement>(null)
-  console.log('sort render')
-
+  
   const onSelectItem = (i:TSort) => {
     dispatch(setSortType(i))
     setOpen(false)

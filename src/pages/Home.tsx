@@ -36,8 +36,6 @@ const Home: React.FC = () => {
     const searched = React.useRef(false)
     const isMounted = React.useRef(false)
 
-    console.log('home render')
-
     const setActiveCategory = React.useCallback((id: number) => {
         dispatch(setCategoryId(id))
     }, [])
