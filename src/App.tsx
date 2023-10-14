@@ -4,8 +4,8 @@ import './scss/app.scss'
 import Home from './pages/Home';
 import {Routes, Route } from 'react-router-dom';
 
-const Cart = React.lazy(() => import('./pages/Cart'))
-const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'))
+const Cart = React.lazy(() => import(/* webpackChunkName: "Cart" */'./pages/Cart'))
+const NotFoundPage = React.lazy(() => import(/* webpackChunkName: "NotFoundPage" */'./pages/NotFoundPage'))
 
 function App() {
   return (
